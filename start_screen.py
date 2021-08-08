@@ -32,5 +32,5 @@ class start_screen(tk.Tk):
         if self._frame is not None:
             self._frame.destroy()
         self._frame = new_frame
-        self._frame.pack()
+        self._frame.pack(fill="both", expand=True)
 

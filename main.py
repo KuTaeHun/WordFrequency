@@ -20,8 +20,6 @@ except:
     import Tkinter.font
     from tkinter import filedialog
     from tkinter import messagebox
-#from tkinter import ttk
-#from tkinter import filedialog
 
 from konlpy.tag import Hannanum
 import requests

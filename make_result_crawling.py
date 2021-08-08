@@ -33,6 +33,11 @@ class result_web_crawling(tk.Frame):
 
     def __init__(self, master):
         tk.Frame.__init__(self, master)
+        result_check_label = tk.Label(self, text="다른 그래프를 만들기 위해서는 프로그램을 재시작 해주세요.")
+        result_check_label.grid(row=0, column=0)
+        previous_button = tk.Button(self, text="종료",
+                                    command= self.quit())
+        previous_button.grid(row=1, column=0)
 
         self.word_plot = []
         self.num_plot = []
@@ -73,9 +78,9 @@ class result_web_crawling(tk.Frame):
         if main.crawling_language == '한국어':
             barfontsize = 20
         elif main.crawling_language == '영어':
-            barfontsize = 30
+            barfontsize = 20
         else:
-            barfontsize =25
+            barfontsize =20
 
         title_font = {
             'fontsize': barfontsize,
@@ -99,31 +104,38 @@ class result_web_crawling(tk.Frame):
 
 
 
-
-            figure1 = Figure(figsize=(10, 8), dpi=100)
-            ax1 = figure1.add_subplot(111)
-            bar1 = FigureCanvasTkAgg(figure1, self)
-            bar1.draw()
-            bar1.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
+            #
+            # figure1 = Figure(figsize=(8, 6), dpi=80)
+            # ax1 = figure1.add_subplot(111)
+            # bar1 = FigureCanvasTkAgg(figure1, self)
+            # bar1.draw()
+            # bar1.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
             try:
-                # x = np.arange(self.length)
-                # plt.figure(figsize=(10, 8))
-                # plt.subplot(1,1,1)
-                # plt.bar(x, self.num_plot)
-                # plt.xticks(x, self.word_plot)
-                # plt.autofmt_xdate(rotation=45)
-                # plt.title(main.crawling_graph_title, fontdict=title_font)
-                # plt.show()
-                self.df1 = self.df1[['단어', '빈도']].groupby('단어').sum()
-                self.df1.plot(kind='bar', legend=True, ax=ax1)
-                ax1.set_title(main.crawling_graph_title, fontsize=barfontsize)
-                file_save.take_screenshot()
+                colors = ['black', 'dimgray', 'dimgrey', 'darkgray', 'silver', 'lightgrey']
+                x = np.arange(self.length)
+                plt.figure(figsize=(10, 8))
+                plt.subplot(1,1,1)
+                plt.bar(x, self.num_plot,color= colors,label = '빈도')
+
+                if main.input_word_length >13:
+                    plt.xticks(x, self.word_plot,rotation=90)
+                else:
+                    plt.xticks(x, self.word_plot)
+                plt.autofmt_xdate(rotation=45)
+                plt.title(main.crawling_graph_title, fontdict=title_font)
+
+                plt.show()
+                # self.df1 = self.df1[['단어', '빈도']].groupby('단어').sum()
+                # self.df1.plot(kind='bar', legend=True, ax=ax1)
+                # ax1.set_title(main.crawling_graph_title, fontsize=barfontsize)
+                # file_save.take_screenshot()
+
             except _tkinter.TclError:
                 tk.messagebox.showerror(title="종료", message="프로그램을 종료합니다.")
-                self.destroy(self)
+                self.destroy()
             except:
                 tk.messagebox.showerror(title="오류", message="그래프가 생성되지 못했습니다.\n URL 혹은 파일을 확인하세요.")
-                self.destroy(self)
+                self.destroy()
 
 
         elif main.crawling_graph == '파이 그래프':
@@ -143,31 +155,31 @@ class result_web_crawling(tk.Frame):
                 my_colors2 = ['lightblue', 'lightsteelblue', 'silver', 'bisque', 'moccasin', 'rosybrown', 'mistyrose',
                               'lightskyblue', 'linen', 'pink']
 
-                # x = np.arange(self.length)
-                # plt.figure(figsize=(10, 8))
-                # plt.subplot(1,1,1)
-                # plt.pie(self.num_plot, labels=self.word_plot,startangle=90,shadow=False,colors=my_colors2, autopct='%.1f%%')
-                # plt.title(main.crawling_graph_title, fontdict=title_font)
-                # plt.show().then(self.destroy())
+                x = np.arange(self.length)
+                plt.figure(figsize=(8, 6))
+                plt.subplot(1,1,1)
+                plt.pie(self.num_plot, labels=self.word_plot,startangle=90,shadow=False,colors=my_colors2, autopct='%.1f%%')
+                plt.title(main.crawling_graph_title, fontdict=title_font)
+                plt.show().then(self.destroy())
                 figure2 = Figure(figsize=(10, 8), dpi=100)
                 ax2 = figure2.add_subplot(111)
 
-                self.df1 = self.df1[['단어','빈도']].groupby('단어').sum()
-                self.df1.plot(kind='line', legend=True, ax=ax2, color='b',marker='o', fontsize=10)
-                ax2.plot(self.word_plot,self.num_plot,color="blue", marker="x", linestyle="")
-                ax2.pie(self.num_plot, colors=my_colors2, labels=self.word_plot, autopct='%1.1f%%', shadow=True,
-                        startangle=90)
-                line1 = FigureCanvasTkAgg(figure2, self)
-                line1.draw()
-
-                line1.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
-                file_save.take_screenshot()
+                # self.df1 = self.df1[['단어','빈도']].groupby('단어').sum()
+                # self.df1.plot(kind='line', legend=True, ax=ax2, color='b',marker='o', fontsize=10)
+                # ax2.plot(self.word_plot,self.num_plot,color="blue", marker="x", linestyle="")
+                # ax2.pie(self.num_plot, colors=my_colors2, labels=self.word_plot, autopct='%1.1f%%', shadow=True,
+                #         startangle=90)
+                # line1 = FigureCanvasTkAgg(figure2, self)
+                # line1.draw()
+                #
+                # line1.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
+                # file_save.take_screenshot()
             except _tkinter.TclError:
                 tk.messagebox.showerror(title="종료", message="프로그램을 종료합니다.")
-                self.destroy(self)
+                self.destroy()
             except:
                 tk.messagebox.showerror(title="오류", message="그래프가 생성되지 못했습니다.\n URL 혹은 파일을 확인하세요.")
-                self.destroy(self)
+                self.destroy()
 
 
         else:
