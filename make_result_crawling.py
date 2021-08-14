@@ -2,6 +2,7 @@
 import _tkinter
 import matplotlib.font_manager as fm
 import numpy as np
+from matplotlib import font_manager
 from pandas import DataFrame
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
@@ -41,6 +42,16 @@ class result_web_crawling(tk.Frame):
 
         self.word_plot = []
         self.num_plot = []
+        if main.graph_color_select == "파란색":
+            colors = ['dodgerblue']
+
+        elif main.graph_color_select == "다양한 색":
+
+            colors= ['lightblue', 'lightsteelblue', 'silver', 'bisque', 'moccasin', 'rosybrown', 'mistyrose',
+                       'lightskyblue', 'linen', 'pink']
+        else:
+            colors = ['black', 'dimgray', 'dimgrey', 'darkgray', 'silver', 'lightgrey']
+
         if main.crawling_language == '한국어':
             if main.search_method =="크롤링":
                 self.text = crawling_web.crawling_korean(main.input_url)
@@ -62,15 +73,16 @@ class result_web_crawling(tk.Frame):
         self.count = Counter(self.text)
 
         self.result = self.count.most_common(self.length)
+        print(self.result)
 
         for temp in self.result:
             temp_word = temp[0]
             temp_num = temp[1]
             self.word_plot.append(temp_word)
             self.num_plot.append(temp_num)
-
-        self.data1 = {'단어': self.word_plot, '빈도': self.num_plot}
-        self.df1 = DataFrame(self.data1, columns=['단어', '빈도'])
+        #
+        # self.data1 = {'단어': self.word_plot, '빈도': self.num_plot}
+        # self.df1 = DataFrame(self.data1, columns=['단어', '빈도'])
 
         # 운영체제마다 폰트가 다르기 때문에 선언
         os = platform.system()
@@ -78,9 +90,9 @@ class result_web_crawling(tk.Frame):
         if main.crawling_language == '한국어':
             barfontsize = 20
         elif main.crawling_language == '영어':
-            barfontsize = 20
+            barfontsize = 25
         else:
-            barfontsize =20
+            barfontsize =30
 
         title_font = {
             'fontsize': barfontsize,
@@ -93,13 +105,17 @@ class result_web_crawling(tk.Frame):
             if os == "Windows":
                 if main.crawling_language == '한국어':
                     plt.rc('font', family='Malgun Gothic')
-                elif main.crawling_language == '힌디어':
-                    plt.rc('font', family ="./Mukta-Medium.ttf")
+                if main.crawling_language == '힌디어':
+
+                    plt.rc('font', family="Arial Unicode MS",size=20)
+
             if os == "Darwin":
                 if main.crawling_language == '한국어':
                     plt.rc("font", family="AppleGothic")
-                elif main.crawling_language == '힌디어':
-                    plt.rc('font', family="./DevanagariFont.otf")
+                if main.crawling_language == '힌디어':
+
+                    plt.rc('font', family="Arial Unicode MS",size=20)
+
 
 
 
@@ -111,17 +127,17 @@ class result_web_crawling(tk.Frame):
             # bar1.draw()
             # bar1.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
             try:
-                colors = ['black', 'dimgray', 'dimgrey', 'darkgray', 'silver', 'lightgrey']
+
                 x = np.arange(self.length)
                 plt.figure(figsize=(10, 8))
                 plt.subplot(1,1,1)
                 plt.bar(x, self.num_plot,color= colors,label = '빈도')
 
-                if main.input_word_length >13:
+                if self.length >13:
                     plt.xticks(x, self.word_plot,rotation=90)
                 else:
                     plt.xticks(x, self.word_plot)
-                plt.autofmt_xdate(rotation=45)
+                #plt.autofmt_xdate(rotation=45)
                 plt.title(main.crawling_graph_title, fontdict=title_font)
 
                 plt.show()
@@ -143,26 +159,23 @@ class result_web_crawling(tk.Frame):
                 if os == "Windows":
                     if main.crawling_language == '한국어':
                         plt.rc('font', family='Malgun Gothic')
-                    elif main.crawling_language == '힌디어':
-                        font_name = fm.FontProperties(fname="./Mukta-Medium.ttf", size=20)
-                        plt.rc('font', family =font_name)
+                    if main.crawling_language == '힌디어':
+                        plt.rc('font', family="Arial Unicode MS",size=20)
                 if os == "Darwin":
                     if main.crawling_language == '한국어':
                         plt.rc("font", family="AppleGothic")
-                    elif main.crawling_language == '힌디어':
-                        font_name = fm.FontProperties(fname="./DevanagariFont.otf", size=20)
-                        plt.rc('font', family=font_name)
-                my_colors2 = ['lightblue', 'lightsteelblue', 'silver', 'bisque', 'moccasin', 'rosybrown', 'mistyrose',
-                              'lightskyblue', 'linen', 'pink']
+                    if main.crawling_language == '힌디어':
+                        plt.rc('font', family="Arial Unicode MS",size=20)
+
 
                 x = np.arange(self.length)
                 plt.figure(figsize=(8, 6))
                 plt.subplot(1,1,1)
-                plt.pie(self.num_plot, labels=self.word_plot,startangle=90,shadow=False,colors=my_colors2, autopct='%.1f%%')
+                plt.pie(self.num_plot, labels=self.word_plot,startangle=90,shadow=False,colors=colors, autopct='%.1f%%')
                 plt.title(main.crawling_graph_title, fontdict=title_font)
-                plt.show().then(self.destroy())
-                figure2 = Figure(figsize=(10, 8), dpi=100)
-                ax2 = figure2.add_subplot(111)
+                plt.show()
+                #figure2 = Figure(figsize=(10, 8), dpi=100)
+                #ax2 = figure2.add_subplot(111)
 
                 # self.df1 = self.df1[['단어','빈도']].groupby('단어').sum()
                 # self.df1.plot(kind='line', legend=True, ax=ax2, color='b',marker='o', fontsize=10)
@@ -190,11 +203,15 @@ class result_web_crawling(tk.Frame):
                     font = './SEBANG Gothic Bold.ttf'
                 elif main.crawling_language == '힌디어':
                     font = './Muka-Mediium.ttf'
+                else:
+                    font = './KGEverSinceNewYork.ttf'
             if os == "Darwin":
                 if main.crawling_language == '한국어':
                     font = './SEBANG Gothic OTF Bold.otf'
                 elif main.crawling_language == '힌디어':
                     font = './DevanagariFont.otf'
+                else:
+                    font = './Montserrat-Bold.otf'
 
 
 

@@ -45,7 +45,8 @@ input_word_length = -1
 crawling_graph = " "
 crawling_graph_title = " "
 file_data = " "
-
+#그래프 색깔 지정
+graph_color_select= " "
 #크롤링인지 파일 탐색인지 선택하는 변수
 search_method = "yes"
 #제대로 파일이 디렉토리에서 선택되었는지 아는 변수

@@ -32,9 +32,9 @@ class first_screen(tk.Frame):
         # txt_button.config(compound = LEFT)
         docx_button = tk.Button(self, text="docx 파일 첨부", command=click_callback_docx)
         docx_button.grid(row=2, column=1)
-        previous_button = tk.Button(self, text="이전", command=lambda: master.switch_frame(main_screen,main.collect_directory))
+        previous_button = tk.Button(self, text="이전",height=1, command=lambda: master.switch_frame(main_screen,main.collect_directory))
         previous_button.grid(row=3, column=0)
-        next_button = tk.Button(self, text="다음", command=lambda: master.switch_frame(second_screen,main.collect_directory))
+        next_button = tk.Button(self, text="다음",height=1, command=lambda: master.switch_frame(second_screen,main.collect_directory))
         next_button.grid(row=3, column=1)
     # docx_button.config(compound = RIGHT)
     # confirm_button = ttk.Button(window,text="확인",command)
@@ -44,6 +44,7 @@ class second_screen(tk.Frame):
     def __init__(self, master):
         main.search_method = "문서"
         tk.Frame.__init__(self, master)
+
         first_screen_title_label = tk.Label(self, text="문서 단어 빈도 분석")
 
         first_screen_title_label.grid(row=0, column=0)
@@ -59,10 +60,10 @@ class second_screen(tk.Frame):
 
         self.listbox.bind('<<ListboxSelect>>', self.selectmotion)
 
-        previous_button = tk.Button(self, text="이전",
+        previous_button = tk.Button(self, text="이전",height = 1,
                                     command=lambda: master.switch_frame(main_screen, main.crawling_language))
         previous_button.grid(row=3, column=0)
-        next_button = tk.Button(self, text="다음",
+        next_button = tk.Button(self, text="다음",height = 1,
                                 command=lambda: master.switch_frame(setting_crawling.third_web_crawling, main.crawling_language))
         next_button.grid(row=3, column=1)
 

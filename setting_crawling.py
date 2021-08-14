@@ -189,11 +189,12 @@ class forth_web_crawling(tk.Frame):
 
         self.listbox.bind('<<ListboxSelect>>', self.selectmotion)
 
+
         previous_button = tk.Button(self, text="이전",
                                     command=lambda: master.switch_frame(third_web_crawling, main.crawling_graph))
         previous_button.grid(row=3, column=0)
         next_button = tk.Button(self, text="다음",
-                                command=lambda: master.switch_frame(fifth_web_crawling, main.crawling_graph))
+                                command=lambda: master.switch_frame(choice_graph_color, main.crawling_graph))
         next_button.grid(row=3, column=1)
 
     def selectmotion(self, event):
@@ -202,6 +203,34 @@ class forth_web_crawling(tk.Frame):
         value = self.listbox.get(selection[0])
         main.crawling_graph = value
 
+
+class choice_graph_color(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        first_screen_title_label = tk.Label(self, text="결과 그래프 색깔 지정")
+
+        first_screen_title_label.grid(row=0, column=0)
+        first_screen_explain_label = tk.Label(self, text="무슨 색깔로 그래프를 제작할까요?")
+
+        first_screen_explain_label.grid(row=1, column=0)
+        self.color_listbox = tk.Listbox(self, selectmode='single', height=0)
+        self.color_listbox.insert(0, "회색")
+        self.color_listbox.insert(1, "다양한 색")
+        self.color_listbox.insert(2, "파란색")
+        self.color_listbox.grid(row=2,column=0)
+        self.color_listbox.bind('<<ListboxSelect>>', self.select_color_motion)
+        previous_button = tk.Button(self, text="이전",
+                                    command=lambda: master.switch_frame(forth_web_crawling, main.graph_color_select))
+        previous_button.grid(row=3, column=0)
+        next_button = tk.Button(self, text="다음",
+                                command=lambda: master.switch_frame(fifth_web_crawling, main.graph_color_select))
+        next_button.grid(row=3, column=1)
+
+    def select_color_motion(self, event):
+        global graph_color_select
+        selection = self.color_listbox.curselection()
+        value = self.color_listbox.get(selection[0])
+        main.graph_color_select = value
 
 # 막대그래프, 파이 그래프 제목 입력창
 class fifth_web_crawling(tk.Frame):
@@ -260,14 +289,23 @@ class check_screen(tk.Frame):
             sixth_label.grid(row=6, column=0)
             title_label = tk.Label(self, text=main.crawling_graph_title)
             title_label.grid(row=6, column=1)
+            title_label = tk.Label(self, text=main.crawling_graph_title)
+            title_label.grid(row=5, column=1)
+            seventh_label = tk.Label(self, text="막대,파이 그래프 지정 색깔은(WordCloud 해당 X): ")
+            seventh_label.grid(row=6, column=0)
+            graph_color_label = tk.Label(self, text=main.graph_color_select)
+            graph_color_label.grid(row=6, column=1)
             result_check_label = tk.Label(self, text="위 해당 조건이 맞습니까?")
             result_check_label.grid(row=7, column=0)
-            previous_button = tk.Button(self, text="초기화", command=lambda: master.switch_frame(main_screen, main.crawling_graph))
+            previous_button = tk.Button(self, text="초기화",
+                                        command=lambda: master.switch_frame(main_screen, main.crawling_graph))
             previous_button.grid(row=8, column=0)
             next_button = tk.Button(self, text="다음",
                                     command=lambda: master.switch_frame(make_result_crawling.result_web_crawling,
                                                                         main.crawling_graph))
             next_button.grid(row=8, column=1)
+
+
         else:
             first_screen_title_label = tk.Label(self, text="조건 확인창")
 
@@ -294,12 +332,16 @@ class check_screen(tk.Frame):
             fifth_label.grid(row=5, column=0)
             title_label = tk.Label(self, text=main.crawling_graph_title)
             title_label.grid(row=5, column=1)
+            sixth_label = tk.Label(self, text="막대,파이 그래프 지정 색깔은(WordCloud 해당 X): ")
+            sixth_label.grid(row=6, column=0)
+            graph_color_label = tk.Label(self, text=main.graph_color_select)
+            graph_color_label.grid(row=6, column=1)
             result_check_label = tk.Label(self, text="위 해당 조건이 맞습니까?")
-            result_check_label.grid(row=6, column=0)
+            result_check_label.grid(row=7, column=0)
             previous_button = tk.Button(self, text="초기화",
                                         command=lambda: master.switch_frame(main_screen, main.crawling_graph))
-            previous_button.grid(row=7, column=0)
+            previous_button.grid(row=8, column=0)
             next_button = tk.Button(self, text="다음",
                                     command=lambda: master.switch_frame(make_result_crawling.result_web_crawling,
                                                                         main.crawling_graph))
-            next_button.grid(row=7, column=1)
+            next_button.grid(row=8, column=1)

@@ -34,7 +34,9 @@ def open_txt_file():
     data = file_name.read()
 
     if data != "":
-        main.collect_directory == "파일이 제대로 선택되어졌음."
+        global collect_directory
+        main.collect_directory = "파일이 제대로 선택되어졌음."
+        print(main.collect_directory)
     return data
 
 
@@ -46,7 +48,9 @@ def open_docx_file():
     #print(file_name.read())
 
     if file_name != '':
-        main.collect_directory == "파일이 제대로 선택되어졌음."
+
+        main.collect_directory = "파일이 제대로 선택되어졌음."
+        print(main.collect_directory)
     text_file = docx2txt.process(file_name)
 
     return text_file
@@ -61,16 +65,14 @@ def saved_image_file():
 
 # txt 파일 버튼
 def click_callback_txt():
-    global file_data
+
     main.file_data = open_txt_file()
 
-    print(type(main.file_data))
 
 # docs 파일 버튼
 def click_callback_docx():
     main.file_data = open_docx_file()
 
-    print(type(main.file_data))
 def take_screenshot():
     x = window.winfo_rootx()  # 창의 왼쪽 위의 x 좌표
     y = window.winfo_rooty()  # 창의 왼쪽 위의 y 좌표
