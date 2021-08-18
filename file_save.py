@@ -36,7 +36,7 @@ def open_txt_file():
     if data != "":
         global collect_directory
         main.collect_directory = "파일이 제대로 선택되어졌음."
-        print(main.collect_directory)
+
     return data
 
 
@@ -50,7 +50,7 @@ def open_docx_file():
     if file_name != '':
 
         main.collect_directory = "파일이 제대로 선택되어졌음."
-        print(main.collect_directory)
+
     text_file = docx2txt.process(file_name)
 
     return text_file

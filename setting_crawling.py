@@ -289,8 +289,7 @@ class check_screen(tk.Frame):
             sixth_label.grid(row=6, column=0)
             title_label = tk.Label(self, text=main.crawling_graph_title)
             title_label.grid(row=6, column=1)
-            title_label = tk.Label(self, text=main.crawling_graph_title)
-            title_label.grid(row=5, column=1)
+
             seventh_label = tk.Label(self, text="막대,파이 그래프 지정 색깔은(WordCloud 해당 X): ")
             seventh_label.grid(row=6, column=0)
             graph_color_label = tk.Label(self, text=main.graph_color_select)
